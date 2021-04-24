@@ -4,7 +4,6 @@ import { Card, CardBody, CardFooter, CardHeader,Row,Col} from "reactstrap";
 
 export default function WeatherInformationContainer(props) {
   const { current={}, minutely={}, hourly={}, daily={} } = props?.currentLocationArray;
-  console.log(current);
   return (
     <>
       {props?.currentLocationArray ? (

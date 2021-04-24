@@ -21,3 +21,12 @@ export const getWeatherResponse=(lat, long,units='metric', AppId='95c1e4ae525765
         return resp
     })
 }
+
+export const getNearbyPlaces=(query, lat, long, limit = 5, radius = 10000,apiKey='6wVm73OG43Zb29Vd9yPs5JPdBYMTU7N6') =>{
+    let baseUrl = 'https://api.tomtom.com/search/2/poiSearch';
+    let queryString = `limit=${limit}&lat=${lat}&lon=${long}&radius=${radius}&key=${apiKey}`;
+    let response =makeGetCall(`${baseUrl}/${query}.json?${queryString}`)
+    return handleResponse(response,false).then((resp)=>{
+        return resp
+    })
+}
