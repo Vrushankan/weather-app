@@ -13,7 +13,6 @@ export const PrivateRoute = ({ component: Component, fullLayout, ...rest }) => (
 
             return (
               <>
-              {console.log(Component)}
                 <LayoutTag {...props} permission={props.user}>
                   <Suspense fallback={<text>Loading</text>}>
                     <Component {...props} />
