@@ -15,24 +15,20 @@ class AnalyticsDashboard extends React.Component {
       geoLocation: {},
       geoError: null,
       searchResult: {},
+      locationName: "",
     };
   }
 
   componentDidMount() {
     navigator.geolocation.getCurrentPosition(
       (e) => {
+        const location = {};
+        location.latitude = e.coords.latitude;
+        location.longitude = e.coords.longitude;
         this.setState({
-          geoLocation: e.coords,
+          geoLocation: location,
         });
-        getWeatherResponse(
-          e.coords.latitude,
-          e.coords.longitude,
-          "metric"
-        ).then((data) => {
-          this.setState({
-            currentLocation: data,
-          });
-        });
+        this.getWeatherData(e.coords.latitude,e.coords.longitude)
       },
       async (err) => {
         this.setState({
@@ -40,6 +36,17 @@ class AnalyticsDashboard extends React.Component {
         });
       }
     );
+  }
+  getWeatherData=(latitude,longitude)=>{
+    getWeatherResponse(
+      latitude,
+      longitude,
+      "metric"
+    ).then((data) => {
+      this.setState({
+        currentLocation: data,
+      });
+    });
   }
   async onSearchChange(query) {
     if (query.length > 0) {
@@ -57,35 +64,42 @@ class AnalyticsDashboard extends React.Component {
             name: result.poi.name,
             dist: result.dist,
             value: result.poi.name,
+            position: result.position,
           }))
           .sort((a, b) => a.dist - b.dist);
         this.setState({
           searchData: data,
         });
-        const records = this.state.searchResults.results
-          ?.map((result) => ({
-            key: result.id,
-            name: result.poi.name,
-            dist: result.dist,
-            value: `${result.poi.name} | ${(result.dist / 1000).toFixed(2)}km `,
-          }))
-          .sort((a, b) => a.dist - b.dist);
-          this.setState({
-            searchRecords: records,
-          });
       });
     }
   }
+  setPlace = (place) => {
+    let geoLoc = this.state.geoLocation;
+    geoLoc.latitude = place.position.lat;
+    geoLoc.longitude = place.position.lon;
+    this.getWeatherData(geoLoc.latitude,geoLoc.longitude)
+    this.setState({ geoLocation: geoLoc, locationName: place.value });
 
+  };
   render() {
-    const { geoLocation, currentLocation, geoError,searchData,searchRecords } = this.state;
-    console.log(searchData);
+    const {
+      geoLocation,
+      currentLocation,
+      geoError,
+      searchData,
+      locationName,
+    } = this.state;
+    console.log(currentLocation);
     return (
       <React.Fragment>
         <Row className="match-height">
           <Col lg="12" md="12">
             <Card>
-              <Banner geoLocation={geoLocation} geoError={geoError} />
+              <Banner
+                geoLocation={geoLocation}
+                geoError={geoError}
+                locationName={locationName}
+              />
             </Card>
           </Col>
           <Col lg="12" md="12">
@@ -93,7 +107,7 @@ class AnalyticsDashboard extends React.Component {
               <ReactSearchBox
                 placeholder="Search for nearby places"
                 data={searchData}
-                onSelect={(place) => console.log(place)}
+                onSelect={(place) => this.setPlace(place)}
                 autoFocus={true}
                 onChange={(query) => this.onSearchChange(query)}
                 fuseConfigs={{
