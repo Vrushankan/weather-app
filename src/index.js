@@ -3,9 +3,10 @@ import ReactDOM from 'react-dom';
 import { Provider } from "react-redux"
 import { IntlProviderWrapper } from "./utility/IntlProviderWrapper"
 import { Layout } from "./utility/Layout"
-import './index.css';
 import { store } from "./redux/Store"
 import reportWebVitals from './reportWebVitals';
+import './index.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const LazyApp = lazy(() => import("./App"))
 

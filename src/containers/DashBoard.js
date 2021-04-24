@@ -1,9 +1,11 @@
 import React from "react";
-import { Row, Col } from "reactstrap";
-import Banner from "./Bannner";
+import { Row, Col,Card } from "reactstrap";
 import { history } from "../history";
-import {getWeatherResponse} from '../sevices/geolocation';
-
+import Banner from "./Bannner";
+import SwitchComponent from './SwitchComponent'
+import WeatherInformationContainer from "./WeatherInformationContainer";
+import { getWeatherResponse } from "../sevices/geolocation";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 class AnalyticsDashboard extends React.Component {
   constructor(props) {
@@ -19,10 +21,16 @@ class AnalyticsDashboard extends React.Component {
       (e) => {
         this.setState({
           geoLocation: e.coords,
-        })
-        getWeatherResponse(e.coords.latitude,e.coords.longitude).then((data)=>{
-          console.log(data);
-        })
+        });
+        getWeatherResponse(
+          e.coords.latitude,
+          e.coords.longitude,
+          "metric"
+        ).then((data) => {
+          this.setState({
+            currentLocation: data,
+          });
+        });
       },
       async (err) => {
         this.setState({
@@ -32,19 +40,28 @@ class AnalyticsDashboard extends React.Component {
     );
   }
   render() {
+    const { geoLocation, currentLocation, geoError } = this.state;
     return (
       <React.Fragment>
         <Row className="match-height">
           <Col lg="12" md="12">
-            <div>
-              <Banner
-                geoLocation={this.state.geoLocation}
-                geoError={this.state.geoError}
-              />
-            </div>
+            <Card>
+              <Banner geoLocation={geoLocation} geoError={geoError} />
+            </Card>
           </Col>
           <Col lg="12" md="12">
-            Response
+          <Card>
+            <SwitchComponent/>
+          </Card>
+          </Col>
+          <Col lg="12" md="12">
+            <Card>
+            {currentLocation !== undefined ? (
+              <WeatherInformationContainer
+                currentLocationArray={currentLocation}
+              />
+            ) : null}
+            </Card>
           </Col>
         </Row>
       </React.Fragment>
