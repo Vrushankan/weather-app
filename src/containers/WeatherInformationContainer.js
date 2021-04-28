@@ -56,7 +56,7 @@ export default function WeatherInformationContainer(props) {
           ) : props.status === "hourly" ? (
             <Row className="match-height">
               {_.map(hourly, (each, i) => (
-                <Col lg="2" md="2" sm="6" key={`component-hourly-${i}`}>
+                <Col lg="3" md="3" sm="6" key={`component-hourly-${i}`}>
                   <Card>
                     <CardBody>
                       <p>precipitation: {each.precipitation}</p>
@@ -83,7 +83,7 @@ export default function WeatherInformationContainer(props) {
           {props.status === "daily" ? (
             <Row className="match-height">
               {_.map(daily, (each, i) => (
-                <Col lg="2" md="2" sm="6" key={`component-daily-${i}`}>
+                <Col lg="3" md="3" sm="6" key={`component-daily-${i}`}>
                   <Card>
                     <CardBody>
                       <p>
@@ -98,8 +98,8 @@ export default function WeatherInformationContainer(props) {
                         <li>Day : {each.temp.day} </li>
                         <li>Eve : {each.temp.eve} </li>
                       </ul>
-                      <p>feels_like:</p>
-                    <ul>
+                      <p>feels like:</p>
+                      <ul>
                         <li>Morning : {each.feels_like.morn} </li>
                         <li>Night : {each.feels_like.night} </li>
                         <li>Day : {each.feels_like.day} </li>

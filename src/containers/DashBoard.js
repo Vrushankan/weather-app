@@ -77,7 +77,7 @@ class AnalyticsDashboard extends React.Component {
         this.setState({
           searchResults: searchResult,
         });
-        const data = searchResult.results
+        const data = searchResult?.results
           ?.map((result) => ({
             key: result.id,
             name: result.poi.name,
