@@ -14,7 +14,7 @@ const LazyApp = lazy(() => import("./App"))
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <Suspense fallback={<text>Loading</text>}>
+      <Suspense fallback={<p>Loading</p>}>
         <Layout>
           <IntlProviderWrapper>
             <LazyApp />

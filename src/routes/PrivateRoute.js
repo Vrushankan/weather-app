@@ -14,7 +14,7 @@ export const PrivateRoute = ({ component: Component, fullLayout, ...rest }) => (
             return (
               <>
                 <LayoutTag {...props} permission={props.user}>
-                  <Suspense fallback={<text>Loading</text>}>
+                  <Suspense fallback={<p>Loading</p>}>
                     <Component {...props} />
                   </Suspense>
                 </LayoutTag>

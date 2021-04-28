@@ -1,9 +1,20 @@
 import React from "react";
-import { Row, Col, Card } from "reactstrap";
+import {
+  Row,
+  Col,
+  Card,
+  Dropdown,
+  DropdownItem,
+  DropdownToggle,
+  DropdownMenu,
+} from "reactstrap";
 import ReactSearchBox from "react-search-box";
+import Select from "react-select";
+import makeAnimated from "react-select/animated";
 import { history } from "../history";
 import Banner from "./Bannner";
 import SwitchComponent from "./SwitchComponent";
+import AutoSearchComponent from "./AutoSearchComponent";
 import WeatherInformationContainer from "./WeatherInformationContainer";
 import { getWeatherResponse, getNearbyPlaces } from "../sevices/geolocation";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -16,6 +27,13 @@ class AnalyticsDashboard extends React.Component {
       geoError: null,
       searchResult: {},
       locationName: "",
+      dropDownValue: "current",
+      defaultDropDown:{
+        label: `current`,
+        value: `current`,
+        isFixed: true,
+      },
+      dropdownOpen: false,
     };
   }
 
@@ -28,7 +46,7 @@ class AnalyticsDashboard extends React.Component {
         this.setState({
           geoLocation: location,
         });
-        this.getWeatherData(e.coords.latitude,e.coords.longitude)
+        this.getWeatherData(e.coords.latitude, e.coords.longitude);
       },
       async (err) => {
         this.setState({
@@ -37,18 +55,19 @@ class AnalyticsDashboard extends React.Component {
       }
     );
   }
-  getWeatherData=(latitude,longitude)=>{
-    getWeatherResponse(
-      latitude,
-      longitude,
-      "metric"
-    ).then((data) => {
+
+  setDropdown = (e) => {
+    this.setState({ dropDownValue: e.value });
+  };
+
+  getWeatherData = (latitude, longitude) => {
+    getWeatherResponse(latitude, longitude, "metric").then((data) => {
       this.setState({
         currentLocation: data,
       });
     });
-  }
-  async onSearchChange(query) {
+  };
+  onSearchChange(query) {
     if (query.length > 0) {
       getNearbyPlaces(
         query,
@@ -77,9 +96,8 @@ class AnalyticsDashboard extends React.Component {
     let geoLoc = this.state.geoLocation;
     geoLoc.latitude = place.position.lat;
     geoLoc.longitude = place.position.lon;
-    this.getWeatherData(geoLoc.latitude,geoLoc.longitude)
+    this.getWeatherData(geoLoc.latitude, geoLoc.longitude);
     this.setState({ geoLocation: geoLoc, locationName: place.value });
-
   };
   render() {
     const {
@@ -88,8 +106,32 @@ class AnalyticsDashboard extends React.Component {
       geoError,
       searchData,
       locationName,
+      defaultDropDown,
+      dropDownValue,
     } = this.state;
-    console.log(currentLocation);
+    const selectOptions = [
+      {
+        label: `current`,
+        value: `current`,
+        isFixed: true,
+      },
+      {
+        label: `minutely`,
+        value: `minutely`,
+        isFixed: true,
+      },
+      {
+        label: `hourly`,
+        value: `hourly`,
+        isFixed: true,
+      },
+      {
+        label: `daily`,
+        value: `daily`,
+        isFixed: true,
+      },
+    ];
+    const animatedComponents = makeAnimated();
     return (
       <React.Fragment>
         <Row className="match-height">
@@ -102,7 +144,7 @@ class AnalyticsDashboard extends React.Component {
               />
             </Card>
           </Col>
-          <Col lg="12" md="12">
+          <Col lg="6" md="6">
             <Card>
               <ReactSearchBox
                 placeholder="Search for nearby places"
@@ -121,11 +163,23 @@ class AnalyticsDashboard extends React.Component {
               <SwitchComponent />
             </Card>
           </Col>
+          <Col lg="6" md="6">
+            <Card>
+              <Select
+                options={selectOptions}
+                className="React font-Mont-13LH15"
+                classNamePrefix="Select"
+                defaultValue={defaultDropDown}
+                onChange={(category) => this.setDropdown(category)}
+              />
+            </Card>
+          </Col>
           <Col lg="12" md="12">
             <Card>
               {currentLocation !== undefined ? (
                 <WeatherInformationContainer
                   currentLocationArray={currentLocation}
+                  status={dropDownValue}
                 />
               ) : null}
             </Card>
