@@ -16,11 +16,17 @@ export default function Banner(props) {
     return <p className="banner warn">{geoError.message}</p>;
   } else if (geoLocation?.latitude) {
     return (
-      <p className="banner success">
-        Lat: <strong>{geoLocation?.latitude.toFixed(4)||'N/A'}</strong><br/>
-        Long:<strong>{geoLocation?.longitude.toFixed(4)||'N/A'}</strong><br/>
-        Your Location: {locationName}
-      </p>
+      <Row className="match-height" style={{padding:15}}>
+        <Col lg="3" md="3">
+          Lat: <strong>{geoLocation?.latitude.toFixed(4) || "N/A"}</strong>
+        </Col>
+        <Col lg="3" md="3">
+          Long:<strong>{geoLocation?.longitude.toFixed(4) || "N/A"}</strong>
+        </Col>
+        <Col lg="3" md="3">
+          Your Location: {locationName}
+        </Col>
+      </Row>
     );
   } else {
     return null;

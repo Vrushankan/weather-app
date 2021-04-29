@@ -10,17 +10,23 @@ export default function WeatherInformationContainer(props) {
     hourly = {},
     daily = {},
   } = props?.currentLocationArray;
+
+  const TextComponent = (LeftSide, RightSide) => (
+    <p>
+      {LeftSide}: {RightSide}
+    </p>
+  );
   return (
     <>
       {props?.currentLocationArray ? (
         <>
           {props.status === "current" ? (
             <>
-              <p>temperature: {current?.temp} metric</p>
-              <p>clouds: {current?.clouds}</p>
-              <p>humidity: {current?.humidity}</p>
-              <p>pressure: {current?.pressure}</p>
-              <p>sunrise: {current?.sunrise}</p>
+              {TextComponent("temperature", current?.temp)}
+              {TextComponent("clouds", current?.clouds)}
+              {TextComponent("humidity", current?.humidity)}
+              {TextComponent("pressure", current?.pressure)}
+              {TextComponent("sunrise", current?.sunrise)}
               <Row className="match-height">
                 {_.map(current.weather, (each, i) => (
                   <Col lg="4" md="4" sm="12" key={`component-current-${i}`}>
@@ -43,10 +49,12 @@ export default function WeatherInformationContainer(props) {
                 <Col lg="2" md="2" sm="6" key={`component-minutely-${i}`}>
                   <Card>
                     <CardBody>
-                      <p>precipitation: {each.precipitation}</p>
-                      <p>
-                        date: {moment(each.dt).format("MMM DD YYYY, h:mm:ss a")}
-                      </p>
+                      {TextComponent("precipitation", each.precipitation)}
+
+                      {TextComponent(
+                        "date",
+                        moment(each.dt).format("MMM DD YYYY, h:mm:ss a")
+                      )}
                     </CardBody>
                     <CardFooter>{each.description}</CardFooter>
                   </Card>
@@ -59,15 +67,15 @@ export default function WeatherInformationContainer(props) {
                 <Col lg="3" md="3" sm="6" key={`component-hourly-${i}`}>
                   <Card>
                     <CardBody>
-                      <p>precipitation: {each.precipitation}</p>
-                      <p>
-                        date: {moment(each.dt).format("MMM DD YYYY, h:mm:ss a")}{" "}
-                      </p>
-                      <p>Temp: {each.temp} </p>
-                      <p>Pressure: {each.pressure} </p>
-                      <p>humidity: {each.humidity} </p>
-                      <p>feels_like: {each.feels_like} </p>
-                      <p>clouds: {each.clouds} </p>
+                      {TextComponent(
+                        "date",
+                        moment(each.dt).format("MMM DD YYYY, h:mm:ss a")
+                      )}
+                      {TextComponent("Temp", each.temp)}
+                      {TextComponent("Pressure", each.pressure)}
+                      {TextComponent("humidity", each.humidity)}
+                      {TextComponent("feels_like", each.feels_like)}
+                      {TextComponent("clouds", each.clouds)}
                     </CardBody>
                     <CardFooter>
                       {each.weather[0].description}{" "}
@@ -86,10 +94,11 @@ export default function WeatherInformationContainer(props) {
                 <Col lg="3" md="3" sm="6" key={`component-daily-${i}`}>
                   <Card>
                     <CardBody>
-                      <p>
-                        date: {moment(each.dt).format("MMM DD YYYY, h:mm:ss a")}{" "}
-                      </p>
-                      <p>Temp:</p>
+                      {TextComponent(
+                        "date",
+                        moment(each.dt).format("MMM DD YYYY, h:mm:ss a")
+                      )}
+                      {TextComponent("Temp", "")}
                       <ul>
                         <li>Min: {each.temp.min} </li>
                         <li>Max: {each.temp.max} </li>
@@ -98,24 +107,18 @@ export default function WeatherInformationContainer(props) {
                         <li>Day : {each.temp.day} </li>
                         <li>Eve : {each.temp.eve} </li>
                       </ul>
-                      <p>feels like:</p>
+                      {TextComponent("feels like", "")}
                       <ul>
                         <li>Morning : {each.feels_like.morn} </li>
                         <li>Night : {each.feels_like.night} </li>
                         <li>Day : {each.feels_like.day} </li>
                         <li>Eve : {each.feels_like.eve} </li>
                       </ul>
-                      <p>Pressure: {each.pressure} </p>
-                      <p>humidity: {each.humidity} </p>
-                      {/* <p>feels_like: {each.feels_like} </p> */}
-                      <p>clouds: {each.clouds} </p>
+                      {TextComponent("Pressure", each.pressure)}
+                      {TextComponent("humidity", each.humidity)}
+                      {TextComponent("clouds", each.clouds)}
                     </CardBody>
-                    {/* <CardFooter>
-                      {each.weather[0].description}{" "}
-                      <img
-                        src={`http://openweathermap.org/img/wn/${each.weather[0].icon}.png`}
-                      />
-                    </CardFooter> */}
+                    <CardFooter></CardFooter>
                   </Card>
                 </Col>
               ))}

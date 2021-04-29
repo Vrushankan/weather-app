@@ -1,20 +1,9 @@
 import React from "react";
-import {
-  Row,
-  Col,
-  Card,
-  Dropdown,
-  DropdownItem,
-  DropdownToggle,
-  DropdownMenu,
-} from "reactstrap";
+import { Row, Col, Card } from "reactstrap";
 import ReactSearchBox from "react-search-box";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import { history } from "../history";
 import Banner from "./Bannner";
-import SwitchComponent from "./SwitchComponent";
-import AutoSearchComponent from "./AutoSearchComponent";
 import WeatherInformationContainer from "./WeatherInformationContainer";
 import { getWeatherResponse, getNearbyPlaces } from "../sevices/geolocation";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -26,9 +15,9 @@ class AnalyticsDashboard extends React.Component {
       geoLocation: {},
       geoError: null,
       searchResult: {},
-      locationName: "",
+      locationName: "Current Location",
       dropDownValue: "current",
-      defaultDropDown:{
+      defaultDropDown: {
         label: `current`,
         value: `current`,
         isFixed: true,
@@ -131,7 +120,6 @@ class AnalyticsDashboard extends React.Component {
         isFixed: true,
       },
     ];
-    const animatedComponents = makeAnimated();
     return (
       <React.Fragment>
         <Row className="match-height">
@@ -145,34 +133,43 @@ class AnalyticsDashboard extends React.Component {
             </Card>
           </Col>
           <Col lg="6" md="6">
-            <Card>
-              <ReactSearchBox
-                placeholder="Search for nearby places"
-                data={searchData}
-                onSelect={(place) => this.setPlace(place)}
-                autoFocus={true}
-                onChange={(query) => this.onSearchChange(query)}
-                fuseConfigs={{
-                  minMatchCharLength: 0,
-                  threshold: 1,
-                  distance: 100000,
-                  sort: false,
-                }}
-                keys={["name"]}
-              />
-              <SwitchComponent />
-            </Card>
+            <Row col="12" className="match-height">
+              <Col lg="3" md="3">
+                Look for Location:
+              </Col>
+              <Col lg="6" md="6">
+                <ReactSearchBox
+                  placeholder="Search for nearby places"
+                  data={searchData}
+                  onSelect={(place) => this.setPlace(place)}
+                  autoFocus={true}
+                  onChange={(query) => this.onSearchChange(query)}
+                  fuseConfigs={{
+                    minMatchCharLength: 0,
+                    threshold: 1,
+                    distance: 100000,
+                    sort: false,
+                  }}
+                  keys={["name"]}
+                />
+              </Col>
+            </Row>
           </Col>
           <Col lg="6" md="6">
-            <Card>
-              <Select
-                options={selectOptions}
-                className="React font-Mont-13LH15"
-                classNamePrefix="Select"
-                defaultValue={defaultDropDown}
-                onChange={(category) => this.setDropdown(category)}
-              />
-            </Card>
+            <Row col="12" className="match-height">
+              <Col lg="3" md="3">
+                Change Filter:
+              </Col>
+              <Col lg="6" md="6">
+                <Select
+                  options={selectOptions}
+                  className="React font-Mont-13LH15"
+                  classNamePrefix="Select"
+                  defaultValue={defaultDropDown}
+                  onChange={(category) => this.setDropdown(category)}
+                />
+              </Col>
+            </Row>
           </Col>
           <Col lg="12" md="12">
             <Card>
