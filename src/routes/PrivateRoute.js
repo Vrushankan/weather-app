@@ -6,7 +6,6 @@ export const PrivateRoute = ({ component: Component, fullLayout, ...rest }) => (
   <Route
     {...rest}
     render={(props) =>
-      localStorage.getItem("user") ? (
         <ContextLayout.Consumer>
           {(context) => {
             let LayoutTag =context.VerticalLayout;
@@ -22,11 +21,6 @@ export const PrivateRoute = ({ component: Component, fullLayout, ...rest }) => (
             );
           }}
         </ContextLayout.Consumer>
-      ) : (
-          <Redirect
-            to={{ pathname: "/login", state: { from: props.location } }}
-          />
-        )
     }
   />
 );
