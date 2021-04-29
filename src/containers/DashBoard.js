@@ -2,7 +2,6 @@ import React from "react";
 import { Row, Col, Card } from "reactstrap";
 import ReactSearchBox from "react-search-box";
 import Select from "react-select";
-import makeAnimated from "react-select/animated";
 import Banner from "./Bannner";
 import WeatherInformationContainer from "./WeatherInformationContainer";
 import { getWeatherResponse, getNearbyPlaces } from "../sevices/geolocation";

@@ -1,7 +1,5 @@
 import React, { PureComponent } from "react";
-import classnames from "classnames";
 import { connect } from "react-redux";
-import { ToastContainer } from "react-toastify";
 
 class VerticalLayout extends PureComponent {
   state = {
@@ -41,24 +39,11 @@ class VerticalLayout extends PureComponent {
 
  
   render() {
-    let appProps = this.props.app?.customizer;
-    let menuThemeArr = [
-      "primary",
-      "success",
-      "danger",
-      "info",
-      "warning",
-      "dark",
-    ];
     return (
       <div>
-        {/* <Sidebar {...sidebarProps} /> */}
         <div>
-          {/* <Navbar {...navbarProps} /> */}
           <div className="content-wrapper">{this.props.children}</div>
         </div>
-
-        {/* <Footer /> */}
       </div>
     );
   }

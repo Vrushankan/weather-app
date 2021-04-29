@@ -1,5 +1,5 @@
 import React, { lazy } from "react";
-import { Router, Switch, Route } from "react-router-dom";
+import { Router, Switch } from "react-router-dom";
 import { history } from "../history";
 import { connect } from "react-redux";
 import { PrivateRoute } from "./PrivateRoute";

@@ -34,6 +34,7 @@ export default function WeatherInformationContainer(props) {
                       <CardHeader>Weather Condition</CardHeader>
                       <CardBody>
                         <img
+                          alt="Weather-ICon"
                           src={`http://openweathermap.org/img/wn/${each.icon}.png`}
                         />{" "}
                       </CardBody>
@@ -80,6 +81,7 @@ export default function WeatherInformationContainer(props) {
                     <CardFooter>
                       {each.weather[0].description}{" "}
                       <img
+                        alt="Weather-ICon"
                         src={`http://openweathermap.org/img/wn/${each.weather[0].icon}.png`}
                       />
                     </CardFooter>
